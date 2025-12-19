@@ -1,4 +1,4 @@
-# MoneyFlow - Personal Finance Management Prototype
+# TrujiMoney - Personal Finance Management Prototype
 
 ## Navigation Map (User Flow)
 
@@ -14,7 +14,7 @@ The application follows a circular flow typical for finance tools:
 
 The homepage is clean and combines educational content with app access.
 
-- **Header**: Logo ("MoneyFlow"), links (Blog, Tutorials), highlighted "My Account" button.
+- **Header**: Logo ("TrujiMoney"), links (Blog, Tutorials), highlighted "My Account" button.
 - **Hero Section**: Powerful title like "Take control of your money" and an interface image.
 - **Post List (Grid)**: Cards with finance tips (e.g., "How to save 20% of your salary").
 - **Sidebar**: Article search and expense categories.
