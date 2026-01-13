@@ -14,6 +14,9 @@
                 <a href="/" class="px-4">Inicio</a>
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <a href="/dashboard" class="px-4">Dashboard</a>
+                    <a href="/inversiones" class="px-4">Inversiones</a>
+                    <a href="/chat" class="px-4">Chat</a>
+                    <a href="/users" class="px-4">Usuarios</a>
                     <a href="/logout" class="px-4">Salir</a>
                 <?php else: ?>
                     <a href="/login" class="px-4">Entrar</a>

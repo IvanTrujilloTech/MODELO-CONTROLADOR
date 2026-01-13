@@ -10,27 +10,11 @@
         </div>
         <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
             <h3 class="text-lg font-semibold text-gray-700 mb-2">Ingresos del Mes</h3>
-            <p class="text-3xl font-bold text-green-600">€<?php
-                $monthly_income = 0;
-                foreach($transactions as $t) {
-                    if($t['tipo'] == 'ingreso' && date('Y-m', strtotime($t['fecha'])) == date('Y-m')) {
-                        $monthly_income += $t['monto'];
-                    }
-                }
-                echo number_format($monthly_income, 2);
-            ?></p>
+            <p class="text-3xl font-bold text-green-600">€<?php echo number_format($monthly_income, 2); ?></p>
         </div>
         <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
             <h3 class="text-lg font-semibold text-gray-700 mb-2">Gastos del Mes</h3>
-            <p class="text-3xl font-bold text-red-600">€<?php
-                $monthly_expenses = 0;
-                foreach($transactions as $t) {
-                    if($t['tipo'] == 'gasto' && date('Y-m', strtotime($t['fecha'])) == date('Y-m')) {
-                        $monthly_expenses += $t['monto'];
-                    }
-                }
-                echo number_format($monthly_expenses, 2);
-            ?></p>
+            <p class="text-3xl font-bold text-red-600">€<?php echo number_format($monthly_expenses, 2); ?></p>
         </div>
     </div>
 
@@ -71,6 +55,14 @@
         <?php else: ?>
         <p class="text-gray-500 mt-4"><a href="/add-transaction" class="text-emerald-600">Añadir nueva transacción</a></p>
         <?php endif; ?>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md p-6 border border-red-200 mt-8">
+        <h3 class="text-xl font-semibold text-red-700 mb-4">⚠️ Zona de Pruebas</h3>
+        <p class="text-gray-600 mb-4">Esta función elimina todas las transacciones e inversiones del usuario actual. Úsala solo para testing.</p>
+        <a href="/reset" onclick="return confirm('¿Estás seguro? Esto eliminará todas tus transacciones e inversiones.')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Resetear Datos de Prueba
+        </a>
     </div>
 </main>
 

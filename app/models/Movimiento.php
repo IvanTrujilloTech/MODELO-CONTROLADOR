@@ -1,4 +1,6 @@
 <?php
+// este archivo define el modelo para los movimientos financieros
+// clase que representa un movimiento de dinero
 class Movimiento {
     private $conn;
     private $table_name = "movimientos";
@@ -11,10 +13,12 @@ class Movimiento {
     public $descripcion;
     public $fecha;
 
+    // constructor que recibe la conexion a la base de datos
     public function __construct($db) {
         $this->conn = $db;
     }
 
+    // metodo que obtiene todos los movimientos ordenados por fecha
     public function getAll() {
         $query = "SELECT * FROM " . $this->table_name . " ORDER BY fecha DESC";
         $stmt = $this->conn->prepare($query);
@@ -22,6 +26,7 @@ class Movimiento {
         return $stmt;
     }
 
+    // metodo que obtiene movimientos de un usuario ordenados por fecha
     public function getByUser($user_id) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE usuario_id = ? ORDER BY fecha DESC";
         $stmt = $this->conn->prepare($query);
@@ -30,6 +35,7 @@ class Movimiento {
         return $stmt;
     }
 
+    // metodo que calcula el balance de un usuario sumando ingresos y restando gastos
     public function getBalance($user_id) {
         $query = "SELECT
             SUM(CASE WHEN tipo = 'ingreso' THEN monto ELSE 0 END) -
@@ -42,6 +48,7 @@ class Movimiento {
         return $row['balance'] ?? 0;
     }
 
+    // metodo que crea un nuevo movimiento en la base de datos
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " SET usuario_id=:usuario_id, tipo=:tipo, categoria=:categoria, monto=:monto, descripcion=:descripcion, fecha=:fecha";
 

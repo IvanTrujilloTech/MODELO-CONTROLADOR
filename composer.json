@@ -1,0 +1,13 @@
+{
+    "name": "modelo-controlador/websocket-app",
+    "description": "A PHP application with WebSocket support using Ratchet",
+    "type": "project",
+    "require": {
+        "cboden/ratchet": "^0.4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

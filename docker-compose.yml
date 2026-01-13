@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - .:/var/www/html
     depends_on:
@@ -26,5 +26,15 @@ services:
       - db_data:/var/lib/mysql
       - ./database.sql:/docker-entrypoint-initdb.d/init.sql
 
+  websocket:
+    build: .
+    ports:
+      - "8082:8080"
+    volumes:
+      - .:/var/www/html
+    command: ["php", "bin/chat-server.php"]
+    depends_on:
+      - db
+
 volumes:
-  db_data:
+ db_data:
