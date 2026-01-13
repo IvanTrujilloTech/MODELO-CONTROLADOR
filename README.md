@@ -1,34 +1,25 @@
-# TrujiMoney - Personal Finance Management Prototype
+# TrujiMoney
 
-## Navigation Map (User Flow)
+## Cómo Navegar por la App (Flujo del Usuario)
 
-The application follows a circular flow typical for finance tools:
+La aplicación sigue un camino como muchas otras apps de dinero:
 
-1. **Home (Landing/Blog)**: Introduction, benefits, and articles about saving.
-2. **Login/Register**: Secure access.
-3. **Dashboard (Main Panel)**: Summary of balance, monthly expense chart, latest transactions.
-4. **Transactions List (Detail View)**: Filters by category (salary, food, leisure) and dates.
-5. **User Profile**: Settings for currency, monthly budget, personal data.
+1. **Inicio (Página Principal/Blog)**: Aquí ves una introducción, los beneficios y artículos sobre cómo ahorrar dinero.
+2. **Iniciar Sesión/Registrarse**: Para entrar de forma segura.
+3. **Panel Principal (Dashboard)**: Un resumen de tu saldo y las últimas cosas que has hecho con tu dinero.
+4. **Lista de Transacciones**: Puedes filtrar por tipo (como sueldo, comida, diversión) y por fechas.
 
-## Wireframe Description
+## Descripción del Diseño Básico
 
-The homepage is clean and combines educational content with app access.
+La página de inicio es simple.
 
-- **Header**: Logo ("TrujiMoney"), links (Blog, Tutorials), highlighted "My Account" button.
-- **Hero Section**: Powerful title like "Take control of your money" and an interface image.
-- **Post List (Grid)**: Cards with finance tips (e.g., "How to save 20% of your salary").
-- **Sidebar**: Article search and expense categories.
-- **Footer**: Legal links and social media.
+- **Header**: El logo ("TrujiMoney"), enlaces (Blog, Guías), y un botón destacado que dice "Mi Cuenta".
+- **Sección Principal**: Un título fuerte como "Toma el control de tu dinero" y una imagen de cómo se ve la app.
+- **Lista de Publicaciones**: Tarjetas con consejos sobre finanzas, como "Cómo ahorrar el 20% de tu sueldo".
+- **Pie de Página**: Enlaces a cosas legales y redes sociales.
 
-## Identity Visual
+## Sobre la Estructura MVC
 
-- **Colors**: Emerald Green (growth), Navy Blue (seriousness), Light Gray (neutral for data).
-- **Typography**: Inter or Roboto (highly readable for numbers and tables).
-
-## MVC Correspondence
-
-In the future MVC structure:
-
-- This static HTML will become PHP views in `/views`.
-- Post list will be a `foreach ($posts as $post)` from PostController querying Post model.
-- Login form will send data to UserController for verification against `users` table and session start.
+- Este HTML simple se forma en páginas PHP en la carpeta `/views`.
+- La lista de publicaciones usa algo como un bucle `foreach ($posts as $post)` desde un controlador llamado PostController, que pregunta al modelo Post por los datos.
+- El formulario para iniciar sesión envia la info a UserController, que comprueba en la tabla `users` de la base de datos e iniciará tu sesión.
