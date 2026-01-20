@@ -7,6 +7,7 @@ services:
       - "8081:80"
     volumes:
       - .:/var/www/html
+      - /var/www/html/vendor
     depends_on:
       - db
     environment:
@@ -32,9 +33,15 @@ services:
       - "8082:8080"
     volumes:
       - .:/var/www/html
+      - /var/www/html/vendor
     command: ["php", "bin/chat-server.php"]
     depends_on:
       - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=finanzas_db
+      - DB_USER=root
+      - DB_PASS=rootpassword
 
 volumes:
  db_data:

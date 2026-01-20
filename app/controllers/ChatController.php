@@ -34,7 +34,7 @@ class ChatController {
         $user_id = $_SESSION['user_id'];
 
         // Get all messages (for global chat) with user names
-        $query = "SELECT m.id, m.sender_id, m.message, m.timestamp, u.nombre as sender_name FROM messages m JOIN usuarios u ON m.sender_id = u.id WHERE m.receiver_id = 0 ORDER BY m.timestamp ASC";
+        $query = "SELECT m.id, m.sender_id, m.message, m.timestamp, u.nombre as sender_name FROM messages m JOIN usuarios u ON m.sender_id = u.id WHERE m.receiver_id IS NULL ORDER BY m.timestamp ASC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);

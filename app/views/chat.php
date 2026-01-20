@@ -1,11 +1,9 @@
 <?php include 'layout/header.php'; // incluir el encabezado de la pagina ?>
 
-// esta vista muestra la interfaz del chat y las transferencias
 <main class="container mx-auto py-12 px-4">
     <h2 class="text-3xl font-bold mb-8 text-gray-800">Chat y Transferencias</h2>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        // seccion del chat global que muestra los mensajes y permite enviar nuevos
         <!-- Chat Section -->
         <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
             <h3 class="text-xl font-semibold text-gray-700 mb-4">Chat Global</h3>
@@ -23,7 +21,6 @@
             </div>
         </div>
 
-        // seccion para realizar transferencias entre usuarios mostrando el saldo y el formulario
         <!-- Transfer Section -->
         <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
             <h3 class="text-xl font-semibold text-gray-700 mb-4">Transferencia Bancaria</h3>
@@ -60,10 +57,9 @@
     </div>
 </main>
 
-// script de javascript para manejar la conexion websocket y el envio de mensajes en tiempo real
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket('ws://localhost:8082');
     const chatMessages = document.getElementById('chat-messages');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');

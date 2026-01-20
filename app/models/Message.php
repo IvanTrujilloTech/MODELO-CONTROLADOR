@@ -24,12 +24,16 @@ class Message {
 
         // sanitizar
         $this->sender_id = htmlspecialchars(strip_tags($this->sender_id));
-        $this->receiver_id = htmlspecialchars(strip_tags($this->receiver_id));
+        $this->receiver_id = $this->receiver_id !== null ? htmlspecialchars(strip_tags($this->receiver_id)) : null;
         $this->message = htmlspecialchars(strip_tags($this->message));
 
         // enlazar valores
         $stmt->bindParam(":sender_id", $this->sender_id);
-        $stmt->bindParam(":receiver_id", $this->receiver_id);
+        if ($this->receiver_id !== null) {
+            $stmt->bindParam(":receiver_id", $this->receiver_id);
+        } else {
+            $stmt->bindValue(":receiver_id", null, PDO::PARAM_NULL);
+        }
         $stmt->bindParam(":message", $this->message);
 
         if($stmt->execute()) {

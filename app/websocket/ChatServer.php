@@ -29,7 +29,7 @@ class ChatServer implements MessageComponentInterface {
         if ($data && isset($data['user_id']) && isset($data['message'])) {
             // Save message
             $this->message->sender_id = $data['user_id'];
-            $this->message->receiver_id = 0; // Global chat
+            $this->message->receiver_id = null; // Global chat
             $this->message->message = $data['message'];
             $this->message->create();
         }
