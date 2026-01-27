@@ -31,6 +31,7 @@ class Usuario {
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":password", $this->password);
 
+
         if($stmt->execute()) {
             return true;
         }
@@ -57,7 +58,7 @@ class Usuario {
 
     // metodo que autentica al usuario verificando la contrasena
     public function login() {
-        $query = "SELECT id, nombre, password FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+        $query = "SELECT id, nombre, email, password FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->email);
@@ -68,6 +69,7 @@ class Usuario {
             if(password_verify($this->password, $row['password'])) {
                 $this->id = $row['id'];
                 $this->nombre = $row['nombre'];
+                $this->email = $row['email'];
                 return true;
             }
         }
@@ -83,6 +85,44 @@ class Usuario {
         $stmt->execute();
 
         return $stmt;
+    }
+
+    public function getUserById($id) {
+        $query = "SELECT id, nombre, email FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function update() {
+        $query = "UPDATE " . $this->table_name . " SET nombre=:nombre, email=:email WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        $this->nombre = htmlspecialchars(strip_tags($this->nombre));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $stmt->bindParam(":nombre", $this->nombre);
+        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":id", $this->id);
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function changePassword($newPassword) {
+        $query = "UPDATE " . $this->table_name . " SET password=:password WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt->bindParam(":password", $hashed);
+        $stmt->bindParam(":id", $this->id);
+        return $stmt->execute();
+    }
+
+    public function delete() {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id);
+        return $stmt->execute();
     }
 }
 ?>
