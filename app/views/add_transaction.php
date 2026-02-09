@@ -1,4 +1,6 @@
-<?php include 'layout/header.php'; // incluir el encabezado de la pagina ?>
+<?php include 'layout/header.php'; // incluir el encabezado de la pagina 
+require_once __DIR__ . '/../helpers/SecurityHelper.php';
+?>
 
 // esta vista muestra el formulario para añadir una nueva transaccion
 <main class="container mx-auto py-12 px-4">
@@ -6,6 +8,7 @@
         <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Añadir Transacción</h2>
         // formulario que envia los datos al controlador para crear una nueva transaccion
         <form action="/add-transaction" method="post">
+            <input type="hidden" name="csrf_token" value="<?php echo generarCSRFToken(); ?>">
             <div class="mb-4">
                 <label for="tipo" class="block text-gray-700 text-sm font-bold mb-2">Tipo:</label>
                 <select id="tipo" name="tipo" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">

@@ -1,9 +1,12 @@
-<?php include 'layout/header.php'; ?>
+<?php include 'layout/header.php'; 
+require_once __DIR__ . '/../helpers/SecurityHelper.php';
+?>
 
 <main class="container mx-auto py-12 px-4">
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 p-6">
         <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Iniciar Sesión</h2>
         <form action="/login" method="post">
+            <input type="hidden" name="csrf_token" value="<?php echo generarCSRFToken(); ?>">
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                 <input type="email" id="email" name="email" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">

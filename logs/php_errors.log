@@ -1,0 +1,116 @@
+[09-Feb-2026 16:20:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:20:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:20:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:20:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:20:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:20:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:44:41 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:44:41 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:46:44 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23
+[09-Feb-2026 16:55:18 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method Security::configure_secure_session() in /var/www/html/public/index.php:23
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 23

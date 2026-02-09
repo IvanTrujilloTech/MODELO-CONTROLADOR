@@ -1,7 +1,14 @@
 <?php include 'layout/header.php'; ?>
 
 <main class="container mx-auto py-12 px-4">
-    <h2 class="text-3xl font-bold mb-8 text-gray-800">Dashboard Financiero</h2>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Dashboard Financiero</h2>
+        <div class="mt-4 md:mt-0">
+            <a href="/search" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                🔍 Buscar Transacciones
+            </a>
+        </div>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">

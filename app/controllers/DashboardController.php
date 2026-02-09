@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../config/Database.php';
 require_once __DIR__ . '/../models/Movimiento.php';
 require_once __DIR__ . '/../models/Inversion.php';
+require_once __DIR__ . '/../helpers/SecurityHelper.php';
 
 // clase que controla el dashboard del usuario incluyendo transacciones e inversiones
 class DashboardController {
@@ -58,14 +59,59 @@ class DashboardController {
         date_default_timezone_set('Europe/Madrid');
 
         if($_POST) {
+            // validar token CSRF
+            if (!validarCSRFToken($_POST['csrf_token'])) {
+                echo "Error de seguridad: Token inválido";
+                return;
+            }
+
+            // validar campos
+            $errores = [];
+            if (!validarTipoTransaccion($_POST['tipo'])) {
+                $errores[] = "Tipo de transacción inválido";
+            }
+            if (!validarCategoria($_POST['categoria'])) {
+                $errores[] = "Categoría inválida";
+            }
+            if (!validarMonto($_POST['monto'])) {
+                $errores[] = "Monto inválido (debe ser positivo y <= 999999.99)";
+            }
+            if (!validarFecha($_POST['fecha'])) {
+                $errores[] = "Fecha inválida (formato: YYYY-MM-DD)";
+            }
+            if (empty($_POST['descripcion']) || strlen($_POST['descripcion']) > 200) {
+                $errores[] = "Descripción debe tener entre 1 y 200 caracteres";
+            }
+
+            if (!empty($errores)) {
+                foreach ($errores as $error) {
+                    echo $error . "<br>";
+                }
+                return;
+            }
+
             $this->movimiento->usuario_id = $_SESSION['user_id'];
-            $this->movimiento->tipo = $_POST['tipo'];
-            $this->movimiento->categoria = $_POST['categoria'];
-            $this->movimiento->monto = $_POST['monto'];
-            $this->movimiento->descripcion = $_POST['descripcion'];
+            $this->movimiento->tipo = sanitizarHTML($_POST['tipo']);
+            $this->movimiento->categoria = sanitizarHTML($_POST['categoria']);
+            $this->movimiento->monto = (float)$_POST['monto'];
+            $this->movimiento->descripcion = sanitizarHTML($_POST['descripcion']);
             $this->movimiento->fecha = $_POST['fecha'];
 
             if($this->movimiento->create()) {
+                // enviar notificacion por webhook
+                enviarNotificacionWebhook([
+                    'tipo' => 'nueva_transaccion',
+                    'usuario_id' => $_SESSION['user_id'],
+                    'usuario_nombre' => $_SESSION['user_name'],
+                    'transaccion' => [
+                        'tipo' => $_POST['tipo'],
+                        'categoria' => $_POST['categoria'],
+                        'monto' => $_POST['monto'],
+                        'descripcion' => $_POST['descripcion'],
+                        'fecha' => $_POST['fecha']
+                    ]
+                ]);
+
                 header("Location: /dashboard");
                 exit;
             } else {
