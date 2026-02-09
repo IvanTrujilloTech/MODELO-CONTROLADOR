@@ -46,6 +46,7 @@ class UserController {
             if($this->usuario->login()) {
                 $_SESSION['user_id'] = $this->usuario->id;
                 $_SESSION['user_name'] = $this->usuario->nombre;
+                $_SESSION['user_role'] = $this->usuario->role;
                 header("Location: /dashboard");
                 exit;
             } else {

@@ -9,6 +9,7 @@ class Usuario {
     public $nombre;
     public $email;
     public $password;
+    public $role;
 
     // constructor que recibe la conexion a la base de datos
     public function __construct($db) {
@@ -17,7 +18,7 @@ class Usuario {
 
     // metodo que crea un nuevo usuario
     public function create() {
-        $query = "INSERT INTO " . $this->table_name . " SET nombre=:nombre, email=:email, password=:password";
+        $query = "INSERT INTO " . $this->table_name . " SET nombre=:nombre, email=:email, password=:password, role=:role";
 
         $stmt = $this->conn->prepare($query);
 
@@ -25,11 +26,13 @@ class Usuario {
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password = htmlspecialchars(strip_tags($this->password));
+        $this->role = htmlspecialchars(strip_tags($this->role ?? 'user'));
 
         // enlazar valores
         $stmt->bindParam(":nombre", $this->nombre);
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":password", $this->password);
+        $stmt->bindParam(":role", $this->role);
 
 
         if($stmt->execute()) {
@@ -58,7 +61,7 @@ class Usuario {
 
     // metodo que autentica al usuario verificando la contrasena
     public function login() {
-        $query = "SELECT id, nombre, email, password FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+        $query = "SELECT id, nombre, email, password, role FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->email);
@@ -70,6 +73,7 @@ class Usuario {
                 $this->id = $row['id'];
                 $this->nombre = $row['nombre'];
                 $this->email = $row['email'];
+                $this->role = $row['role'];
                 return true;
             }
         }
@@ -79,7 +83,7 @@ class Usuario {
 
     // metodo que obtiene todos los usuarios ordenados por fecha de creacion
     public function getAllUsers() {
-        $query = "SELECT id, nombre, email, created_at FROM " . $this->table_name . " ORDER BY created_at DESC";
+        $query = "SELECT id, nombre, email, role, created_at FROM " . $this->table_name . " ORDER BY created_at DESC";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -88,7 +92,7 @@ class Usuario {
     }
 
     public function getUserById($id) {
-        $query = "SELECT id, nombre, email FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
+        $query = "SELECT id, nombre, email, role FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();

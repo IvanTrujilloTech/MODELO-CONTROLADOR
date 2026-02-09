@@ -16,7 +16,9 @@
                     <a href="/dashboard" class="px-4">Dashboard</a>
                     <a href="/inversiones" class="px-4">Inversiones</a>
                     <a href="/chat" class="px-4">Chat</a>
-                    <a href="/users" class="px-4">Usuarios</a>
+                    <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <a href="/users" class="px-4">Usuarios</a>
+                    <?php endif; ?>
                     <a href="/logout" class="px-4">Salir</a>
                 <?php else: ?>
                     <a href="/login" class="px-4">Entrar</a>

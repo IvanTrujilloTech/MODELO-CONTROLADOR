@@ -1,5 +1,5 @@
 <?php
-// Carga básica de rutas manual (para empezar)
+// Carga básica de rutas manual
 require_once '../config/Database.php';
 require_once '../app/controllers/HomeController.php';
 require_once '../app/controllers/UserController.php';
