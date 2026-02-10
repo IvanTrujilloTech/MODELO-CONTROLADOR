@@ -9,14 +9,13 @@ class UserController {
     private $db;
     private $usuario;
 
-    // constructor que inicializa la base de datos y el modelo de usuario
     public function __construct() {
-        $database = new Database();
-        $this->db = $database->getConnection();
-        $this->usuario = new Usuario($this->db);
+        $database = new database();
+        $this->db = $database->getconnection();
+        $this->usuario = new usuario($this->db);
     }
 
-    // metodo que registra un nuevo usuario verificando si el email ya existe
+    // registro de usuario con proteccion csrf y validacion
     public function register() {
         if($_POST) {
             // validar token CSRF
@@ -51,19 +50,24 @@ class UserController {
             if($this->usuario->emailExists()) {
                 echo "El email ya está registrado.";
             } else {
-                if($this->usuario->create()) {
-                    header("Location: /login");
+                if ($this->usuario->create()) {
+                    security::regenerate_csrf_token();
+                    security::log_security_event('user_registered', ['email' => security::mask_for_log($email)]);
+                    header("location: /login");
                     exit;
                 } else {
-                    echo "Error al registrar usuario.";
+                    security::log_security_event('registration_failed', ['email' => security::mask_for_log($email)]);
+                    echo "error al registrar usuario.";
                 }
             }
         } else {
-            require_once __DIR__ . '/../views/register.php';
+            // get request - mostramos el formulario
+            security::generate_csrf_token();
+            require_once __dir__ . '/../views/register.php';
         }
     }
 
-    // metodo que autentica al usuario y establece la sesion
+    // login de usuario con csrf y rate limiting
     public function login() {
         if($_POST) {
             // validar token CSRF
@@ -85,10 +89,15 @@ class UserController {
                 header("Location: /dashboard");
                 exit;
             } else {
-                echo "Credenciales incorrectas.";
+                rate_limiter::record_failed_attempt($ip);
+                security::log_security_event('login_failed', ['email' => security::mask_for_log($email), 'ip' => $ip]);
+                $remaining = rate_limiter::get_remaining_attempts($ip);
+                echo "credenciales incorrectas. (" . $remaining . " intentos restantes)";
             }
         } else {
-            require_once __DIR__ . '/../views/login.php';
+            // get request - mostramos el formulario
+            security::generate_csrf_token();
+            require_once __dir__ . '/../views/login.php';
         }
     }
 
@@ -105,4 +114,3 @@ class UserController {
         require_once __DIR__ . '/../views/users.php';
     }
 }
-?>
