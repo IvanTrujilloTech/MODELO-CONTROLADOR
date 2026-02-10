@@ -1,43 +1,43 @@
 <?php
 // clase de utilidades para seguridad
 // aqui van funciones para proteger el sistema
-class security {
+class Security {
     
     // tiempo de vida del token csfr
-    private const csrf_token_lifetime = 1800;
+    private const CSRF_TOKEN_LIFETIME = 1800;
     
     // genera un token csrf y lo guarda en sesion
     public static function generate_csrf_token() {
-        if (!isset($_session['csrf_token']) || 
-            !isset($_session['csrf_token_time']) || 
-            (time() - $_session['csrf_token_time']) > self::csrf_token_lifetime) {
+        if (!isset($_SESSION['csrf_token']) || 
+            !isset($_SESSION['csrf_token_time']) || 
+            (time() - $_SESSION['csrf_token_time']) > self::CSRF_TOKEN_LIFETIME) {
             
-            $_session['csrf_token'] = bin2hex(random_bytes(32));
-            $_session['csrf_token_time'] = time();
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            $_SESSION['csrf_token_time'] = time();
         }
-        return $_session['csrf_token'];
+        return $_SESSION['csrf_token'];
     }
     
     // valida un token csrf
     public static function validate_csrf_token($token) {
-        if (!isset($_session['csrf_token']) || $token === null) {
+        if (!isset($_SESSION['csrf_token']) || $token === null) {
             return false;
         }
         
         // comprobamos si el token ha expirado
-        if (!isset($_session['csrf_token_time']) || 
-            (time() - $_session['csrf_token_time']) > self::csrf_token_lifetime) {
+        if (!isset($_SESSION['csrf_token_time']) || 
+            (time() - $_SESSION['csrf_token_time']) > self::CSRF_TOKEN_LIFETIME) {
             self::clear_csrf_token();
             return false;
         }
         
         // comparamos de forma segura para evitar ataques de tiempo
-        return hash_equals($_session['csrf_token'], $token);
+        return hash_equals($_SESSION['csrf_token'], $token);
     }
     
     // borra el token csrf de la sesion
     public static function clear_csrf_token() {
-        unset($_session['csrf_token'], $_session['csrf_token_time']);
+        unset($_SESSION['csrf_token'], $_SESSION['csrf_token_time']);
     }
     
     // regenera el token csrf despues de una validacion exitosa
@@ -56,7 +56,7 @@ class security {
         $string = trim(preg_replace('/\s+/', ' ', $string));
         
         // convertimos caracteres especiales html
-        return htmlspecialchars($string, ent_quote | ent_html5, 'utf-8');
+        return htmlspecialchars($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
     
     // limpia un entero
@@ -74,7 +74,7 @@ class security {
         if ($email === null || empty($email)) {
             return false;
         }
-        return filter_var($email, filter_validate_email) !== false;
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
     
     // valida una url
@@ -82,11 +82,11 @@ class security {
         if ($url === null || empty($url)) {
             return false;
         }
-        return filter_var($url, filter_validate_url) !== false;
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
     
     // valida que un texto solo tenga caracteres permitidos
-    public static function validate_alpha_numeric($string, $pattern = '/^[a-za-z0-9\s\-_.,]+$/') {
+    public static function validate_alpha_numeric($string, $pattern = '/^[a-zA-Z0-9\s\-_.,]+$/') {
         if ($string === null) {
             return false;
         }
@@ -121,7 +121,7 @@ class security {
     
     // hace hash de una contrasena de forma segura
     public static function hash_password($password) {
-        return password_hash($password, password_default | password_argon2id);
+        return password_hash($password, PASSWORD_DEFAULT | PASSWORD_ARGON2ID);
     }
     
     // verifica una contrasena contra un hash
@@ -131,7 +131,7 @@ class security {
     
     // comprueba si la contrasena necesita ser rehasheada
     public static function password_needs_rehash($hash) {
-        return password_needs_rehash($hash, password_default | password_argon2id);
+        return password_needs_rehash($hash, PASSWORD_DEFAULT | PASSWORD_ARGON2ID);
     }
     
     // genera un token aleatorio seguro
@@ -149,12 +149,12 @@ class security {
     
     // valida el origen de la peticion para evitar csrf
     public static function validate_request_origin() {
-        if (!isset($_server['http_origin']) && !isset($_server['http_referer'])) {
-            return $_server['request_method'] === 'get';
+        if (!isset($_SERVER['HTTP_ORIGIN']) && !isset($_SERVER['HTTP_REFERER'])) {
+            return $_SERVER['REQUEST_METHOD'] === 'GET';
         }
         
-        $origin = $_server['http_origin'] ?? $_server['http_referer'];
-        $host = $_server['http_host'] ?? $_server['server_name'];
+        $origin = $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'];
+        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         
         $origin_parts = parse_url($origin);
         $host_parts = parse_url('http://' . $host);
@@ -164,8 +164,8 @@ class security {
     
     // configura la sesion de forma segura
     public static function configure_secure_session() {
-        if (session_status() === php_session_none) {
-            $secure = !in_array($_server['http_host'] ?? '', ['localhost', '127.0.0.1']);
+        if (session_status() === PHP_SESSION_NONE) {
+            $secure = !in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']);
             
             session_set_cookie_params([
                 'lifetime' => 0,
@@ -173,51 +173,51 @@ class security {
                 'domain' => '',
                 'secure' => $secure,
                 'httponly' => true,
-                'samesite' => 'lax'
+                'samesite' => 'Lax'
             ]);
             
             session_start();
             
             // regeneramos el id de sesion cada cierto tiempo para evitar fixation
-            if (!isset($_session['created'])) {
-                $_session['created'] = time();
-            } elseif (time() - $_session['created'] > 1800) {
+            if (!isset($_SESSION['created'])) {
+                $_SESSION['created'] = time();
+            } elseif (time() - $_SESSION['created'] > 1800) {
                 session_regenerate_id(true);
-                $_session['created'] = time();
+                $_SESSION['created'] = time();
             }
         }
     }
     
     // pone los headers de seguridad
     public static function set_security_headers() {
-        header('x-xss-protection: 1; mode=block');
-        header('x-content-type-options: nosniff');
-        header('x-frame-options: sameorigin');
-        header('referrer-policy: strict-origin-when-cross-origin');
-        header("content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self';");
-        header('permissions-policy: geolocation=(), microphone=(), camera=()');
-        if (isset($_server['https']) && $_server['https'] === 'on') {
-            header('strict-transport-security: max-age=31536000; includesubdomains');
+        header('X-XSS-Protection: 1; mode=block');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: sameorigin');
+        header('Referrer-Policy: strict-origin-when-cross-origin');
+        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self';");
+        header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            header('Strict-Transport-Security: max-age=31536000; includesubdomains');
         }
     }
     
     // registra eventos de seguridad
     public static function log_security_event($event, $context = []) {
         $log_entry = [
-            'timestamp' => date('y-m-d h:i:s'),
+            'timestamp' => date('Y-m-d H:i:s'),
             'event' => $event,
-            'ip' => $_server['remote_addr'] ?? 'unknown',
-            'user_agent' => $_server['http_user_agent'] ?? 'unknown',
-            'user_id' => $_session['user_id'] ?? 'guest',
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+            'user_id' => $_SESSION['user_id'] ?? 'guest',
             'context' => $context
         ];
         
-        error_log(json_encode($log_entry) . php_eol, 3, __dir__ . '/../../logs/security.log');
+        error_log(json_encode($log_entry) . PHP_EOL, 3, __DIR__ . '/../../logs/security.log');
     }
     
     // limpia un nombre de archivo para operaciones seguras
     public static function sanitize_filename($filename) {
-        $filename = preg_replace('/[^a-za-z0-9._-]/', '_', $filename);
+        $filename = preg_replace('/[^a-zA-Z0-9._-]/', '_', $filename);
         $filename = str_replace('..', '_', $filename);
         return substr($filename, 0, 255);
     }
@@ -228,7 +228,7 @@ class security {
             return $default;
         }
         
-        if (strpos($url, '//') === false || strpos($url, '://' . $_server['http_host']) !== false) {
+        if (strpos($url, '//') === false || strpos($url, '://' . $_SERVER['HTTP_HOST']) !== false) {
             return $url;
         }
         
@@ -237,10 +237,10 @@ class security {
 }
 
 // clase para limitar intentos y evitar ataques de fuerza bruta
-class rate_limiter {
+class RateLimiter {
     private static $attempts = [];
-    private const max_attempts = 5;
-    private const lockout_time = 900;
+    private const MAX_ATTEMPTS = 5;
+    private const LOCKOUT_TIME = 900;
     
     // comprueba si una ip esta bloqueada
     public static function is_locked_out($identifier) {
@@ -250,8 +250,8 @@ class rate_limiter {
         
         $attempts = self::$attempts[$identifier];
         
-        if ($attempts['count'] >= self::max_attempts) {
-            if (time() - $attempts['last_attempt'] < self::lockout_time) {
+        if ($attempts['count'] >= self::MAX_ATTEMPTS) {
+            if (time() - $attempts['last_attempt'] < self::LOCKOUT_TIME) {
                 return true;
             } else {
                 unset(self::$attempts[$identifier]);
@@ -283,9 +283,9 @@ class rate_limiter {
     // devuelve los intentos que quedan antes de bloquear
     public static function get_remaining_attempts($identifier) {
         if (!isset(self::$attempts[$identifier])) {
-            return self::max_attempts;
+            return self::MAX_ATTEMPTS;
         }
         
-        return max(0, self::max_attempts - self::$attempts[$identifier]['count']);
+        return max(0, self::MAX_ATTEMPTS - self::$attempts[$identifier]['count']);
     }
 }

@@ -7,9 +7,6 @@ require_once __DIR__ . '/../helpers/SecurityHelper.php';
 
 // clase que controla el dashboard del usuario incluyendo transacciones e inversiones
 class DashboardController {
-// controlador del dashboard
-// aqui se gestionan las transacciones e inversiones con seguridad
-class dashboardcontroller {
     private $db;
     private $movimiento;
     private $inversion;
@@ -139,70 +136,7 @@ class dashboardcontroller {
             $this->movimiento->monto = (float)$_POST['monto'];
             $this->movimiento->descripcion = sanitizarHTML($_POST['descripcion']);
             $this->movimiento->fecha = $_POST['fecha'];
-    // anade una nueva transaccion
-    public function addtransaction() {
-        $this->requireauth();
-
-        if ($_server['request_method'] === 'post') {
-            if (!$this->validatecsrf()) {
-                echo "error de seguridad: token csrf invalido.";
-                return;
-            }
-
-            if (!security::validate_request_origin()) {
-                security::log_security_event('origin_failure', ['action' => 'add_transaction']);
-                echo "error: peticion no valida.";
-                return;
-            }
-
-            // comprovamos que esten los campos obligatorios
-            $required_fields = ['tipo', 'categoria', 'monto', 'fecha'];
-            foreach ($required_fields as $field) {
-                if (empty($_post[$field])) {
-                    echo "error: el campo {$field} es obligatorio.";
-                    return;
-                }
-            }
-
-            // validamos el tipo de transaccion
-            $tipo = security::sanitize_string($_post['tipo']);
-            if (!in_array($tipo, ['ingreso', 'gasto'])) {
-                echo "error: tipo de transaccion invalido.";
-                return;
-            }
-
-            // validamos el monto
-            $monto = security::sanitize_float($_post['monto']);
-            if ($monto <= 0 || $monto > 999999999.99) {
-                echo "error: el monto debe ser mayor a 0.";
-                return;
-            }
-
-            // validamos el formato de fecha
-            $fecha = $_post['fecha'];
-            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) {
-                echo "error: formato de fecha invalido.";
-                return;
-            }
-
-            // limpiamos la descripcion si la hay
-            $descripcion = security::sanitize_string($_post['descripcion'] ?? '');
-
-            // validamos la categoria
-            $categoria = security::sanitize_string($_post['categoria']);
-            if (!security::validate_alpha_numeric($categoria, '/^[a-za-z0-9\saeiou]{1,50}$/')) {
-                echo "error: categoria con caracteres no validos.";
-                return;
-            }
-
-            // metemos los datos en el movimiento
-            $this->movimiento->usuario_id = $_session['user_id'];
-            $this->movimiento->tipo = $tipo;
-            $this->movimiento->categoria = $categoria;
-            $this->movimiento->monto = $monto;
-            $this->movimiento->descripcion = $descripcion;
-            $this->movimiento->fecha = $fecha;
-
+            
             if($this->movimiento->create()) {
                 // enviar notificacion por webhook
                 enviarNotificacionWebhook([
@@ -219,16 +153,8 @@ class dashboardcontroller {
                 ]);
 
                 header("Location: /dashboard");
-            if ($this->movimiento->create()) {
-                security::log_security_event('transaction_created', [
-                    'user_id' => $_session['user_id'],
-                    'type' => $tipo,
-                    'amount' => $monto
-                ]);
-                header("location: /dashboard");
-                exit;
             } else {
-                echo "error al anadir transaccion.";
+                echo "Error al añadir la transacción";
             }
         } else {
             require_once __dir__ . '/../views/add_transaction.php';

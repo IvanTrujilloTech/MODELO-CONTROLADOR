@@ -5,7 +5,7 @@
 // funcion que envia datos a un webhook de n8n
 function enviarNotificacionWebhook($datos) {
     // url del webhook de n8n (debes configurarla en tu entorno)
-    $webhookUrl = getenv('N8N_WEBHOOK_URL') ?: 'https://n8n.example.com/webhook/your-webhook-id';
+    $webhookUrl = getenv('N8N_WEBHOOK_URL') ?: 'https://ivantrubar.app.n8n.cloud/webhook-test/ff373657-1ce7-4512-9329-1b534d87c759';
 
     // preparar datos para enviar
     $data = [

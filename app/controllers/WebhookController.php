@@ -10,7 +10,7 @@ class webhookcontroller {
         $database = new database();
         $this->db = $database->getconnection();
         $this->post = new post($this->db);
-        $this->webhooksecret = getenv('webhook_secret') ?: 'tu-webhook-secret-key-minimo-32-caracteres-cambiar-esto';
+        $this->webhooksecret = getenv('webhook_secret') ?: 'ff373657-1ce7-4512-9329-1b534d87c759';
     }
 
     // verifica la firma del webhook

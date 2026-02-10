@@ -114,3 +114,50 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /var/www/html/public/index.php on line 23
+[10-Feb-2026 14:50:08 UTC] PHP Parse error:  syntax error, unexpected token "class", expecting "function" or "const" in /var/www/html/app/controllers/DashboardController.php on line 12
+[10-Feb-2026 14:50:13 UTC] PHP Parse error:  syntax error, unexpected token "class", expecting "function" or "const" in /var/www/html/app/controllers/DashboardController.php on line 12
+[10-Feb-2026 14:53:30 UTC] PHP Warning:  require_once(../config/Database.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 29
+[10-Feb-2026 14:53:30 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../config/Database.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:29
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 29
+[10-Feb-2026 14:56:37 UTC] PHP Parse error:  syntax error, unexpected token "public" in /var/www/html/app/controllers/DashboardController.php on line 140
+[10-Feb-2026 15:16:22 UTC] PHP Parse error:  syntax error, unexpected token "public" in /var/www/html/app/controllers/DashboardController.php on line 163
+[10-Feb-2026 15:16:24 UTC] PHP Parse error:  syntax error, unexpected token "public" in /var/www/html/app/controllers/DashboardController.php on line 163
+[10-Feb-2026 15:16:24 UTC] PHP Parse error:  syntax error, unexpected token "public" in /var/www/html/app/controllers/DashboardController.php on line 163
+[10-Feb-2026 15:16:24 UTC] PHP Parse error:  syntax error, unexpected token "public" in /var/www/html/app/controllers/DashboardController.php on line 163
+[10-Feb-2026 15:19:10 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:10 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:12 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:12 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:12 UTC] PHP Warning:  require_once(/var/www/html/app/controllers/DashboardController.php): Failed to open stream: No such file or directory in /var/www/html/public/index.php on line 32
+[10-Feb-2026 15:19:12 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/html/app/controllers/DashboardController.php' (include_path='.:/usr/local/lib/php') in /var/www/html/public/index.php:32
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/public/index.php on line 32
