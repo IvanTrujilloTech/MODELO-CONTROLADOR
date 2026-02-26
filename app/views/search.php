@@ -1,6 +1,5 @@
 <?php include 'layout/header.php'; ?>
 
-// esta vista muestra los resultados de la busqueda de transacciones
 <main class="container mx-auto py-12 px-4">
     <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl font-bold mb-8 text-gray-800">Buscar Transacciones</h2>

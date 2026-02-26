@@ -5,7 +5,7 @@ require_once __DIR__ . '/../helpers/SecurityHelper.php';
 <main class="container mx-auto py-12 px-4">
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 p-6">
         <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Registro de Usuario</h2>
-        <form action="/register" method="post">
+        <form action="/register" method="post" id="registerform">
             <input type="hidden" name="csrf_token" value="<?php echo generarCSRFToken(); ?>">
             <div class="mb-4">
                 <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">nombre:</label>
@@ -48,20 +48,20 @@ require_once __DIR__ . '/../helpers/SecurityHelper.php';
 </main>
 
 <script>
-document.getelementbyid('registerform').addeventlistener('submit', function(e) {
-    const password = document.getelementbyid('password').value;
-    const nombre = document.getelementbyid('nombre').value;
+document.getElementById('registerform').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const nombre = document.getElementById('nombre').value;
     
     // validacion en cliente
     if (password.length < 8) {
-        e.preventdefault();
-        alert('la contrasena debe tener al menos 8 caracteres');
+        e.preventDefault();
+        alert('La contraseña debe tener al menos 8 caracteres');
         return false;
     }
     
-    if (!/^[a-za-z0-9\saeiou]{2,100}$/.test(nombre)) {
-        e.preventdefault();
-        alert('el nombre solo puede contener letras, numeros y espacios');
+    if (!/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ]{2,100}$/.test(nombre)) {
+        e.preventDefault();
+        alert('El nombre solo puede contener letras, números y espacios');
         return false;
     }
     

@@ -18,65 +18,65 @@ class DashboardController {
         $this->inversion = new inversion($this->db);
     }
 
-    //require autenticacion del usuario
-    private function requireauth() {
-        if (!isset($_session['user_id'])) {
-            header("location: /login");
+    // Require autenticacion del usuario
+    private function requireAuth() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
             exit;
         }
 
-        // validamos consistencia de sesion
-        if ($_session['ip'] !== $_server['remote_addr'] || 
-            $_session['user_agent'] !== $_server['http_user_agent']) {
-            security::log_security_event('session_hijacking_attempt', [
-                'user_id' => $_session['user_id'] ?? 'guest',
-                'expected_ip' => $_session['ip'],
-                'actual_ip' => $_server['remote_addr']
+        // Validamos consistencia de sesion
+        if ($_SESSION['ip'] !== $_SERVER['REMOTE_ADDR'] || 
+            $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+            Security::log_security_event('session_hijacking_attempt', [
+                'user_id' => $_SESSION['user_id'] ?? 'guest',
+                'expected_ip' => $_SESSION['ip'],
+                'actual_ip' => $_SERVER['REMOTE_ADDR']
             ]);
             session_destroy();
-            header("location: /login");
+            header("Location: /login");
             exit;
         }
 
-        // timeout de sesion (30 minutos)
-        if (isset($_session['login_time']) && (time() - $_session['login_time']) > 1800) {
-            security::log_security_event('session_timeout', ['user_id' => $_session['user_id']]);
+        // Timeout de sesion (30 minutos)
+        if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time']) > 1800) {
+            Security::log_security_event('session_timeout', ['user_id' => $_SESSION['user_id']]);
             session_destroy();
-            header("location: /login?timeout=1");
+            header("Location: /login?timeout=1");
             exit;
         }
     }
 
-    // valida el token csrf para post requests
-    private function validatecsrf() {
-        if ($_server['request_method'] === 'post') {
-            if (!security::validate_csrf_token($_post['csrf_token'] ?? null)) {
-                security::log_security_event('csrf_failure', [
-                    'action' => $_post['action'] ?? 'unknown',
-                    'user_id' => $_session['user_id'] ?? 'guest'
+    // Valida el token CSRF para POST requests
+    private function validateCSRF() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!Security::validate_csrf_token($_POST['csrf_token'] ?? null)) {
+                Security::log_security_event('csrf_failure', [
+                    'action' => $_POST['action'] ?? 'unknown',
+                    'user_id' => $_SESSION['user_id'] ?? 'guest'
                 ]);
                 return false;
             }
-            security::regenerate_csrf_token();
+            Security::regenerate_csrf_token();
         }
         return true;
     }
 
-    // dashboard - muestra balance y transacciones recientes
+    // Dashboard - muestra balance y transacciones recientes
     public function index() {
-        $this->requireauth();
+        $this->requireAuth();
 
-        date_default_timezone_set('europe/madrid');
+        date_default_timezone_set('Europe/Madrid');
 
-        $user_id = $_session['user_id'];
-        $balance = $this->movimiento->getbalance($user_id);
-        $transactions = $this->movimiento->getbyuser($user_id)->fetchall(pdo::fetch_assoc);
+        $user_id = $_SESSION['user_id'];
+        $balance = $this->movimiento->getBalance($user_id);
+        $transactions = $this->movimiento->getByUser($user_id)->fetchAll(PDO::FETCH_ASSOC);
 
         $monthly_income = 0;
         $monthly_expenses = 0;
-        $current_month = date('y-m');
+        $current_month = date('Y-m');
         foreach ($transactions as $t) {
-            $transaction_month = date('y-m', strtotime($t['fecha']));
+            $transaction_month = date('Y-m', strtotime($t['fecha']));
             if ($transaction_month == $current_month) {
                 if ($t['tipo'] == 'ingreso') {
                     $monthly_income += (float)$t['monto'];
@@ -86,7 +86,7 @@ class DashboardController {
             }
         }
 
-        require_once __dir__ . '/../views/dashboard.php';
+        require_once __DIR__ . '/../views/dashboard.php';
     }
 
     // metodo que añade una nueva transaccion al sistema
@@ -161,60 +161,60 @@ class DashboardController {
         }
     }
 
-    // muestra las inversiones del usuario
+    // Muestra las inversiones del usuario
     public function inversiones() {
-        $this->requireauth();
+        $this->requireAuth();
 
-        $user_id = $_session['user_id'];
-        $inversiones = $this->inversion->getbyuser($user_id)->fetchall(pdo::fetch_assoc);
+        $user_id = $_SESSION['user_id'];
+        $inversiones = $this->inversion->getByUser($user_id)->fetchAll(PDO::FETCH_ASSOC);
 
-        require_once __dir__ . '/../views/inversiones.php';
+        require_once __DIR__ . '/../views/inversiones.php';
     }
 
-    // compra acciones
-    public function compraracciones() {
-        $this->requireauth();
+    // Compra acciones
+    public function comprarAcciones() {
+        $this->requireAuth();
 
-        if ($_server['request_method'] === 'post') {
-            if (!$this->validatecsrf()) {
-                echo "error de seguridad: token csrf invalido.";
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->validateCSRF()) {
+                echo "Error de seguridad: Token CSRF inválido.";
                 return;
             }
 
-            if (!security::validate_request_origin()) {
-                echo "error: peticion no valida.";
+            if (!Security::validate_request_origin()) {
+                echo "Error: Petición no válida.";
                 return;
             }
 
-            // validamos campos numericos
-            $cantidad = security::sanitize_float($_post['cantidad'] ?? 0);
-            $precio_compra = security::sanitize_float($_post['precio_compra'] ?? 0);
+            // Validamos campos numericos
+            $cantidad = Security::sanitize_float($_POST['cantidad'] ?? 0);
+            $precio_compra = Security::sanitize_float($_POST['precio_compra'] ?? 0);
 
             if ($cantidad <= 0 || $precio_compra <= 0) {
-                header("location: /comprar-acciones?error=invalid_amount");
+                header("Location: /comprar-acciones?error=invalid_amount");
                 exit;
             }
 
             $total = $cantidad * $precio_compra;
 
-            // validamos que no pase de los limites
+            // Validamos que no pase de los limites
             if ($total > 999999999.99) {
-                header("location: /comprar-acciones?error=amount_too_high");
+                header("Location: /comprar-acciones?error=amount_too_high");
                 exit;
             }
 
-            $user_id = $_session['user_id'];
-            $balance = $this->movimiento->getbalance($user_id);
+            $user_id = $_SESSION['user_id'];
+            $balance = $this->movimiento->getBalance($user_id);
 
             if ($balance < $total) {
-                header("location: /comprar-acciones?error=insufficient_balance");
+                header("Location: /comprar-acciones?error=insufficient_balance");
                 exit;
             }
 
-            // limpiamos el nombre de la empresa
-            $empresa = security::sanitize_string($_post['empresa']);
-            if (!security::validate_alpha_numeric($empresa, '/^[a-za-z0-9\s.]{1,100}$/')) {
-                header("location: /comprar-acciones?error=invalid_company");
+            // Limpiamos el nombre de la empresa
+            $empresa = Security::sanitize_string($_POST['empresa']);
+            if (!Security::validate_alpha_numeric($empresa, '/^[a-zA-Z0-9\s.]{1,100}$/')) {
+                header("Location: /comprar-acciones?error=invalid_company");
                 exit;
             }
 
@@ -224,63 +224,63 @@ class DashboardController {
             $this->inversion->precio_compra = $precio_compra;
 
             if ($this->inversion->create()) {
-                // creamos el registro de transaccion
+                // Creamos el registro de transaccion
                 $this->movimiento->usuario_id = $user_id;
                 $this->movimiento->tipo = 'gasto';
                 $this->movimiento->categoria = 'inversiones';
                 $this->movimiento->monto = $total;
-                $this->movimiento->descripcion = "compra de acciones de " . $empresa;
-                $this->movimiento->fecha = date('y-m-d');
+                $this->movimiento->descripcion = "Compra de acciones de " . $empresa;
+                $this->movimiento->fecha = date('Y-m-d');
 
                 if ($this->movimiento->create()) {
-                    security::log_security_event('stock_purchase', [
+                    Security::log_security_event('stock_purchase', [
                         'user_id' => $user_id,
                         'company' => $empresa,
                         'quantity' => $cantidad,
                         'total' => $total
                     ]);
-                    header("location: /inversiones");
+                    header("Location: /inversiones");
                     exit;
                 } else {
-                    echo "error al registrar la transaccion.";
+                    echo "Error al registrar la transacción.";
                 }
             } else {
-                echo "error al comprar acciones.";
+                echo "Error al comprar acciones.";
             }
         } else {
-            require_once __dir__ . '/../views/comprar_acciones.php';
+            require_once __DIR__ . '/../views/comprar_acciones.php';
         }
     }
 
-    // vende acciones
-    public function venderacciones() {
-        $this->requireauth();
+    // Vende acciones
+    public function venderAcciones() {
+        $this->requireAuth();
 
-        if ($_server['request_method'] === 'post') {
-            if (!$this->validatecsrf()) {
-                echo "error de seguridad: token csrf invalido.";
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->validateCSRF()) {
+                echo "Error de seguridad: Token CSRF inválido.";
                 return;
             }
 
-            if (!security::validate_request_origin()) {
-                echo "error: peticion no valida.";
+            if (!Security::validate_request_origin()) {
+                echo "Error: Petición no válida.";
                 return;
             }
 
-            $user_id = $_session['user_id'];
-            $inversion_id = security::sanitize_int($_post['inversion_id'] ?? 0);
-            $cantidad = security::sanitize_float($_post['cantidad'] ?? 0);
-            $precio_venta = security::sanitize_float($_post['precio_venta'] ?? 0);
+            $user_id = $_SESSION['user_id'];
+            $inversion_id = Security::sanitize_int($_POST['inversion_id'] ?? 0);
+            $cantidad = Security::sanitize_float($_POST['cantidad'] ?? 0);
+            $precio_venta = Security::sanitize_float($_POST['precio_venta'] ?? 0);
 
             if ($inversion_id <= 0 || $cantidad <= 0 || $precio_venta <= 0) {
-                header("location: /inversiones?error=invalid_data");
+                header("Location: /inversiones?error=invalid_data");
                 exit;
             }
 
             $total = $cantidad * $precio_venta;
 
-            // verificamos que sea suya
-            $inversiones = $this->inversion->getbyuser($user_id)->fetchall(pdo::fetch_assoc);
+            // Verificamos que sea suya
+            $inversiones = $this->inversion->getByUser($user_id)->fetchAll(PDO::FETCH_ASSOC);
             $investment = null;
             foreach ($inversiones as $inv) {
                 if ($inv['id'] == $inversion_id) {
@@ -290,77 +290,77 @@ class DashboardController {
             }
 
             if (!$investment || $cantidad > $investment['cantidad']) {
-                header("location: /inversiones?error=invalid_sale");
+                header("Location: /inversiones?error=invalid_sale");
                 exit;
             }
 
             if ($this->inversion->sell($inversion_id, $cantidad)) {
-                // creamos registro de ingreso
+                // Creamos registro de ingreso
                 $this->movimiento->usuario_id = $user_id;
                 $this->movimiento->tipo = 'ingreso';
                 $this->movimiento->categoria = 'inversiones';
                 $this->movimiento->monto = $total;
-                $this->movimiento->descripcion = "venta de acciones de " . $investment['empresa'];
-                $this->movimiento->fecha = date('y-m-d');
+                $this->movimiento->descripcion = "Venta de acciones de " . $investment['empresa'];
+                $this->movimiento->fecha = date('Y-m-d');
 
                 if ($this->movimiento->create()) {
-                    security::log_security_event('stock_sale', [
+                    Security::log_security_event('stock_sale', [
                         'user_id' => $user_id,
                         'company' => $investment['empresa'],
                         'quantity' => $cantidad,
                         'total' => $total
                     ]);
-                    header("location: /inversiones");
+                    header("Location: /inversiones");
                     exit;
                 } else {
-                    echo "error al registrar la transaccion.";
+                    echo "Error al registrar la transacción.";
                 }
             } else {
-                echo "error al vender acciones.";
+                echo "Error al vender acciones.";
             }
         } else {
-            header("location: /inversiones");
+            header("Location: /inversiones");
             exit;
         }
     }
 
-    // resetea todos los datos del usuario
+    // Resetea todos los datos del usuario
     public function reset() {
-        $this->requireauth();
+        $this->requireAuth();
 
-        // validacion csrf requerida
-        if ($_server['request_method'] === 'post') {
-            if (!$this->validatecsrf()) {
-                echo "error de seguridad: token csrf invalido.";
+        // Validacion CSRF requerida
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->validateCSRF()) {
+                echo "Error de seguridad: Token CSRF inválido.";
                 return;
             }
 
-            // comprovamos contrasena para operacion sensible
-            if (empty($_post['confirm_password'])) {
-                header("location: /dashboard?error=password_required");
+            // Comprobamos contrasena para operacion sensible
+            if (empty($_POST['confirm_password'])) {
+                header("Location: /dashboard?error=password_required");
                 exit;
             }
 
-            $user_id = $_session['user_id'];
+            $user_id = $_SESSION['user_id'];
 
-            // borramos transacciones
-            $query = "delete from movimientos where usuario_id = ?";
+            // Borramos transacciones
+            $query = "DELETE FROM movimientos WHERE usuario_id = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bindparam(1, $user_id, pdo::param_int);
+            $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
             $stmt->execute();
 
-            // borramos inversiones
-            $query = "delete from inversiones where usuario_id = ?";
+            // Borramos inversiones
+            $query = "DELETE FROM inversiones WHERE usuario_id = ?";
             $stmt = $this->db->prepare($query);
-            $stmt->bindparam(1, $user_id, pdo::param_int);
+            $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
             $stmt->execute();
 
-            security::log_security_event('data_reset', ['user_id' => $user_id]);
+            Security::log_security_event('data_reset', ['user_id' => $user_id]);
 
-            header("location: /dashboard");
+            header("Location: /dashboard");
             exit;
         } else {
-            header("location: /dashboard");
+            header("Location: /dashboard");
             exit;
         }
     }

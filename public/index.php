@@ -115,6 +115,9 @@ if ($url == '/' || $url == '/index.php') {
 } elseif ($url == '/posts/search' || $url == '/posts/search/') {
     $controller = new PostController();
     $controller->search();
+} elseif ($url == '/search' || $url == '/search/') {
+    $controller = new SearchController();
+    $controller->search();
 } else {
     echo "404 - Página no encontrada";
 }

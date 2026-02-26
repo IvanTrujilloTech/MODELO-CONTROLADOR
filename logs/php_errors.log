@@ -161,3 +161,84 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /var/www/html/public/index.php on line 32
+[10-Feb-2026 16:14:40 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::attr_errmode in /var/www/html/config/Database.php:22
+Stack trace:
+#0 /var/www/html/app/controllers/UserController.php(14): database->getconnection()
+#1 /var/www/html/public/index.php(60): UserController->__construct()
+#2 {main}
+  thrown in /var/www/html/config/Database.php on line 22
+[10-Feb-2026 16:17:10 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::attr_errmode in /var/www/html/config/Database.php:22
+Stack trace:
+#0 /var/www/html/app/controllers/UserController.php(14): database->getconnection()
+#1 /var/www/html/public/index.php(60): UserController->__construct()
+#2 {main}
+  thrown in /var/www/html/config/Database.php on line 22
+[10-Feb-2026 16:17:13 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::attr_errmode in /var/www/html/config/Database.php:22
+Stack trace:
+#0 /var/www/html/app/controllers/UserController.php(14): database->getconnection()
+#1 /var/www/html/public/index.php(60): UserController->__construct()
+#2 {main}
+  thrown in /var/www/html/config/Database.php on line 22
+[10-Feb-2026 16:17:38 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::attr_errmode in /var/www/html/config/Database.php:22
+Stack trace:
+#0 /var/www/html/app/controllers/UserController.php(14): database->getconnection()
+#1 /var/www/html/public/index.php(57): UserController->__construct()
+#2 {main}
+  thrown in /var/www/html/config/Database.php on line 22
+[10-Feb-2026 16:18:29 UTC] database connection error: SQLSTATE[HY000] [2002] No such file or directory
+[10-Feb-2026 16:18:29 UTC] PHP Fatal error:  Uncaught Exception: error de conexion a la base de datos in /var/www/html/config/Database.php:36
+Stack trace:
+#0 /var/www/html/app/controllers/UserController.php(14): database->getconnection()
+#1 /var/www/html/public/index.php(60): UserController->__construct()
+#2 {main}
+  thrown in /var/www/html/config/Database.php on line 36
+[10-Feb-2026 16:26:04 UTC] PHP Warning:  Undefined variable $_session in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:26:04 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:26:04 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::fetch_assoc in /var/www/html/app/controllers/DashboardController.php:169
+Stack trace:
+#0 /var/www/html/public/index.php(77): DashboardController->inversiones()
+#1 {main}
+  thrown in /var/www/html/app/controllers/DashboardController.php on line 169
+[10-Feb-2026 16:34:53 UTC] PHP Warning:  Undefined variable $_session in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:34:53 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:34:53 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::fetch_assoc in /var/www/html/app/controllers/DashboardController.php:169
+Stack trace:
+#0 /var/www/html/public/index.php(77): DashboardController->inversiones()
+#1 {main}
+  thrown in /var/www/html/app/controllers/DashboardController.php on line 169
+[10-Feb-2026 16:34:58 UTC] PHP Warning:  Undefined variable $_session in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:34:58 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:34:58 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::fetch_assoc in /var/www/html/app/controllers/DashboardController.php:169
+Stack trace:
+#0 /var/www/html/public/index.php(77): DashboardController->inversiones()
+#1 {main}
+  thrown in /var/www/html/app/controllers/DashboardController.php on line 169
+[10-Feb-2026 16:35:38 UTC] PHP Warning:  Undefined variable $_session in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:35:38 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:35:38 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::fetch_assoc in /var/www/html/app/controllers/DashboardController.php:169
+Stack trace:
+#0 /var/www/html/public/index.php(77): DashboardController->inversiones()
+#1 {main}
+  thrown in /var/www/html/app/controllers/DashboardController.php on line 169
+[10-Feb-2026 16:35:44 UTC] PHP Warning:  Undefined variable $_session in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:35:44 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:35:44 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::fetch_assoc in /var/www/html/app/controllers/DashboardController.php:169
+Stack trace:
+#0 /var/www/html/public/index.php(77): DashboardController->inversiones()
+#1 {main}
+  thrown in /var/www/html/app/controllers/DashboardController.php on line 169
+[10-Feb-2026 16:38:11 UTC] PHP Warning:  Undefined variable $_session in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:38:11 UTC] PHP Warning:  Trying to access array offset on value of type null in /var/www/html/app/controllers/DashboardController.php on line 168
+[10-Feb-2026 16:38:11 UTC] PHP Fatal error:  Uncaught Error: Undefined constant PDO::fetch_assoc in /var/www/html/app/controllers/DashboardController.php:169
+Stack trace:
+#0 /var/www/html/public/index.php(77): DashboardController->inversiones()
+#1 {main}
+  thrown in /var/www/html/app/controllers/DashboardController.php on line 169
+[10-Feb-2026 18:34:10 Europe/Madrid] PHP Warning:  Undefined array key "csrf_token" in /var/www/html/app/controllers/DashboardController.php on line 103
+[10-Feb-2026 18:34:10 Europe/Madrid] PHP Fatal error:  Uncaught TypeError: hash_equals(): Argument #2 ($user_string) must be of type string, null given in /var/www/html/app/helpers/SecurityHelper.php:53
+Stack trace:
+#0 /var/www/html/app/helpers/SecurityHelper.php(53): hash_equals('0ec2453d4bd960c...', NULL)
+#1 /var/www/html/app/controllers/DashboardController.php(103): validarCSRFToken(NULL)
+#2 /var/www/html/public/index.php(67): DashboardController->addTransaction()
+#3 {main}
+  thrown in /var/www/html/app/helpers/SecurityHelper.php on line 53

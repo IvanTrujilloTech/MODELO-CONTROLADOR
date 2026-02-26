@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+    # Nginx - Servidor web
+    nginx:
+        image: nginx:alpine
+        container_name: laravel-nginx
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+
+    # PHP - Aplicación Laravel
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel-app
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - db
+        environment:
+            - DB_HOST=db
+            - DB_PORT=3306
+            - DB_DATABASE=${DB_DATABASE}
+            - DB_USERNAME=${DB_USERNAME}
+            - DB_PASSWORD=${DB_PASSWORD}
+
+    # MySQL - Base de datos
+    db:
+        image: mysql:8.0
+        container_name: laravel-db
+        restart: unless-stopped
+        ports:
+            - "33060:3306"
+        environment:
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_USER=${DB_USERNAME}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./docker/mysql/init:/docker-entrypoint-initdb.d
+
+    # Redis - Caché
+    redis:
+        image: redis:alpine
+        container_name: laravel-redis
+        restart: unless-stopped
+        ports:
+            - "63790:6379"
+        volumes:
+            - redisdata:/data
+
+    # Node - Compilación de assets
+    node:
+        image: node:18-alpine
+        container_name: laravel-node
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        command: "npm run dev"
+
+volumes:
+    dbdata:
+    redisdata:

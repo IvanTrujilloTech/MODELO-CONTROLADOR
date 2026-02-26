@@ -9,31 +9,31 @@ class database {
     public $conn;
 
     public function __construct() {
-        $this->host = getenv('db_host') ?: "localhost";
-        $this->db_name = getenv('db_name') ?: "finanzas_db";
-        $this->username = getenv('db_user') ?: "root";
-        $this->password = getenv('db_pass') ?: "";
+        $this->host = getenv('DB_HOST') ?: "db";
+        $this->db_name = getenv('DB_NAME') ?: "finanzas_db";
+        $this->username = getenv('DB_USER') ?: "root";
+        $this->password = getenv('DB_PASS') ?: "rootpassword";
     }
 
     public function getconnection() {
         $this->conn = null;
         try {
             $options = [
-                pdo::attr_errmode => pdo::errmode_exception,
-                pdo::attr_default_fetch_mode => pdo::fetch_assoc,
-                pdo::attr_emulate_prepares => false,
-                pdo::mysql_attr_init_command => "set names utf8mb4 collate utf8mb4_unicode_ci"
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8mb4 collate utf8mb4_unicode_ci"
             ];
             
-            $this->conn = new pdo(
+            $this->conn = new PDO(
                 "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=utf8mb4",
                 $this->username,
                 $this->password,
                 $options
             );
-        } catch(pdoexception $exception) {
-            error_log("database connection error: " . $exception->getmessage());
-            throw new exception("error de conexion a la base de datos");
+        } catch(PDOException $exception) {
+            error_log("database connection error: " . $exception->getMessage());
+            throw new Exception("error de conexion a la base de datos");
         }
         return $this->conn;
     }
