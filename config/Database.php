@@ -1,7 +1,7 @@
 <?php
 // configuracion de base de datos
 // aqui esta la conexion pdo segura
-class database {
+class Database {
     private $host;
     private $db_name;
     private $username;
@@ -15,7 +15,7 @@ class database {
         $this->password = getenv('DB_PASS') ?: "rootpassword";
     }
 
-    public function getconnection() {
+    public function getConnection() {
         $this->conn = null;
         try {
             $options = [
@@ -33,13 +33,13 @@ class database {
             );
         } catch(PDOException $exception) {
             error_log("database connection error: " . $exception->getMessage());
-            throw new Exception("error de conexion a la base de datos");
+            return null; // Return null instead of throwing to allow retry
         }
         return $this->conn;
     }
 
     // cierra la conexion
-    public function closeconnection() {
+    public function closeConnection() {
         $this->conn = null;
     }
 }

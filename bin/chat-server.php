@@ -12,13 +12,26 @@ use Ratchet\WebSocket\WsServer;
 
 $database = new Database();
 $db = null;
-while ($db === null) {
+$attempts = 0;
+$maxAttempts = 30;
+
+echo "Attempting to connect to database...\n";
+
+while ($db === null && $attempts < $maxAttempts) {
     $db = $database->getConnection();
+    $attempts++;
     if ($db === null) {
-        echo "Database not ready, waiting...\n";
+        echo "Database not ready, waiting 2 seconds... (Attempt $attempts/$maxAttempts)\n";
         sleep(2);
     }
 }
+
+if ($db === null) {
+    echo "Failed to connect to database after $maxAttempts attempts. Exiting...\n";
+    exit(1);
+}
+
+echo "Database connection successful!\n";
 
 $server = IoServer::factory(
     new HttpServer(
